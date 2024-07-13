@@ -18,13 +18,13 @@ export function PricesTable(props: { price: Price | undefined }) {
               {"Pythnet Price Feeds"}
             </Table.Cell>
             <Table.Cell>
-              {props.price ? `${props.price.price}` : "Loading..."}
-            </Table.Cell>
-            <Table.Cell>
-              {props.price ? `${props.price.publishTime}` : "Loading..."}
+              ${props.price ? `${props.price.price}` : "Loading..."}
             </Table.Cell>
             <Table.Cell>
               ${props.price ? `${props.price.conf}` : "Loading..."}
+            </Table.Cell>
+            <Table.Cell>
+              {props.price ? `${props.price.publishTime}` : "Loading..."}
             </Table.Cell>
           </Table.Row>
         </Table.Body>
