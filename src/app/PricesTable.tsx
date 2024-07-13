@@ -1,12 +1,15 @@
 "use client";
-import { diaPrice } from "@/hooks/useDIAPrice";
+import { diaPrice } from "@/integrations/dia/types";
 import { Price } from "@pythnetwork/price-service-client";
 import { CustomFlowbiteTheme, Table } from "flowbite-react";
 
-export function PricesTable(props: {
-  pythPrice: Price | undefined;
-  diaPrice: diaPrice | undefined;
-}) {
+export interface tableDisplayPrice {
+  value?: string;
+  updated?: string;
+  source: "Pythnet Price Feeds" | "DIA Price Oracle";
+}
+
+export function PricesTable(props: { prices: tableDisplayPrice[] }) {
   return (
     <div className="overflow-x-auto">
       <Table hoverable theme={tableTheme}>
@@ -16,31 +19,22 @@ export function PricesTable(props: {
           <Table.HeadCell>Updated</Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">
-          <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-            <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-              {"Pythnet Price Feeds"}
-            </Table.Cell>
-            <Table.Cell>
-              ${props.pythPrice ? `${props.pythPrice.price}` : "Loading..."}
-            </Table.Cell>
-            <Table.Cell>
-              {props.pythPrice
-                ? `${props.pythPrice.publishTime}`
-                : "Loading..."}
-            </Table.Cell>
-          </Table.Row>
-
-          <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-            <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-              {"DIA Data Oracle"}
-            </Table.Cell>
-            <Table.Cell>
-              ${props.diaPrice ? `${props.diaPrice.Price}` : "Loading..."}
-            </Table.Cell>
-            <Table.Cell>
-              {props.diaPrice ? `${props.diaPrice.Time}` : "Loading..."}
-            </Table.Cell>
-          </Table.Row>
+          {props.prices.map((price) => {
+            return (
+              <Table.Row
+                className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                key={`${price.source}`}
+              >
+                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                  {price.source}
+                </Table.Cell>
+                <Table.Cell>
+                  ${price.value ? `${price.value}` : "Loading..."}
+                </Table.Cell>
+                <Table.Cell>{price.updated || "Loading..."}</Table.Cell>
+              </Table.Row>
+            );
+          })}
         </Table.Body>
       </Table>
     </div>

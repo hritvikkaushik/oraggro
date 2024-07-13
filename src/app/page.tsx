@@ -1,18 +1,25 @@
 "use client";
 
 import NavigationBar from "@/components/NavigationBar";
-import usePythPrice from "@/hooks/usePythPrice";
+import usePythPrice from "@/integrations/pyth/usePythPrice";
 import { Card } from "flowbite-react";
-import { PricesTable } from "./PricesTable";
-import fetchAndLogPriceFromDIA from "@/lib/diaOracle";
-import useDIAPrice from "@/hooks/useDIAPrice";
+import { PricesTable, tableDisplayPrice } from "./PricesTable";
+import useDIAPrice from "@/integrations/dia/useDIAPrice";
+import {
+  convertPythPrice,
+  mapPythPriceToDisplayTablePrice,
+} from "@/integrations/pyth/util";
+import { mapDIAPriceToDisplayTablePrice } from "@/integrations/dia/util";
 
 export default function Home() {
-  const pythPrice = usePythPrice(
-    "0xe62df6c8b4a85fe1a67db44dc12de5db330f7ac66b72dc658afedf0f4a415b43"
-  );
+  const timeInterval = 3000;
+  const asset = "SOL";
 
-  const diaPrice = useDIAPrice(10000, "Bitcoin");
+  const pythPrice = usePythPrice(asset, timeInterval);
+  const pythDisplayPrice = mapPythPriceToDisplayTablePrice(pythPrice);
+
+  const diaPrice = useDIAPrice(timeInterval, asset);
+  const diaDisplayPrice = mapDIAPriceToDisplayTablePrice(diaPrice.price);
 
   return (
     <>
@@ -20,15 +27,15 @@ export default function Home() {
 
       <div className="flex flex-col items-center justify-between p-24 dark:bg-gray-900 dark:text-gray-400">
         <div className="flex gap-5">
-          <a href="#">Coin1</a>
-          <a href="#">Coin2</a>
-          <a href="#">Coin3</a>
-          <a href="#">Coin4</a>
+          <a href="#">BTC/USD</a>
+          <a href="#">ETH/USD</a>
+          <a href="#">SOL/USD</a>
+          <a href="#">AVAX/USD</a>
         </div>
 
         <Card className="max-w-md p-20">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white mx-auto">
-            ${pythPrice ? `${pythPrice.price.slice(0, 5)}` : "Loading..."}
+            ${computeAveragePrice([pythDisplayPrice, diaDisplayPrice])}
           </h2>
           <p className="font-normal text-gray-700 dark:text-gray-400">
             Average price of below <b>2</b> oracles
@@ -36,10 +43,14 @@ export default function Home() {
         </Card>
       </div>
 
-      <PricesTable
-        pythPrice={pythPrice}
-        diaPrice={diaPrice.price}
-      ></PricesTable>
+      <PricesTable prices={[pythDisplayPrice, diaDisplayPrice]}></PricesTable>
     </>
   );
 }
+
+const computeAveragePrice = (prices: tableDisplayPrice[]): string => {
+  const sum = prices
+    .map((price) => Number.parseFloat(price.value || ""))
+    .reduce((a, b) => a + b);
+  return (sum / prices.length).toFixed(2);
+};

@@ -5,6 +5,7 @@ import {
   PriceServiceConnection,
 } from "@pythnetwork/price-service-client";
 import { useEffect, useState, useRef } from "react";
+import { pythAssetMapping } from "./assetMapping";
 
 // const getPriceFeed = async () => {
 //   const connection = new PriceServiceConnection("https://hermes.pyth.network");
@@ -39,9 +40,12 @@ import { useEffect, useState, useRef } from "react";
 
 // export default usePythFeedPrice;
 
-const usePythPrice = (priceId: string) => {
+const usePythPrice = (asset: string, updateInterval: number = 3000) => {
   const [price, setPrice] = useState<Price>();
   const connectionRef = useRef<PriceServiceConnection>();
+  const latestPriceRef = useRef<Price>();
+
+  const priceId = pythAssetMapping.get(asset) || "";
 
   useEffect(() => {
     // Create the PriceServiceConnection
@@ -54,17 +58,24 @@ const usePythPrice = (priceId: string) => {
     connection.subscribePriceFeedUpdates([priceId], (priceFeed) => {
       const latestPrice = priceFeed.getPriceNoOlderThan(60);
       if (latestPrice) {
-        setPrice(latestPrice);
+        latestPriceRef.current = latestPrice;
       }
     });
+
+    const intervalId = setInterval(() => {
+      if (latestPriceRef.current !== null) {
+        setPrice(latestPriceRef.current);
+      }
+    }, updateInterval);
 
     // Clean up the WebSocket connection when the component unmounts
     return () => {
       if (connectionRef.current) {
         connectionRef.current.closeWebSocket();
       }
+      clearInterval(intervalId);
     };
-  }, [priceId]);
+  }, [priceId, updateInterval]);
 
   return price;
 };

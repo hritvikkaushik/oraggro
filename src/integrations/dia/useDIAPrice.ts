@@ -1,28 +1,19 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-
-export interface diaPrice {
-  Symbol: string;
-  Name: string;
-  Address: string;
-  Blockchain: string;
-  Price: number;
-  PriceYesterday: number;
-  VolumeYesterdayUSD: number;
-  Time: string;
-  Source: string;
-  Signature: string;
-}
+import { diaPrice } from "./types";
+import { diaAssetMapping } from "./assetMapping";
 
 const useDIAPrice = (interval = 10000, assetName: string) => {
   const [price, setPrice] = useState<diaPrice>();
   const [error, setError] = useState(null);
 
+  const mappedAssetName = diaAssetMapping.get(assetName);
+
   useEffect(() => {
     const fetchPrice = () => {
       const options = {
         method: "GET",
-        url: `https://api.diadata.org/v1/assetQuotation/${assetName}/0x0000000000000000000000000000000000000000`,
+        url: `https://api.diadata.org/v1/assetQuotation/${mappedAssetName}/0x0000000000000000000000000000000000000000`,
         headers: { "Content-Type": "application/json" },
       };
 
@@ -46,7 +37,7 @@ const useDIAPrice = (interval = 10000, assetName: string) => {
 
     // Clean up the interval when the component unmounts
     return () => clearInterval(intervalId);
-  }, [interval, assetName]);
+  }, [interval, mappedAssetName]);
 
   return { price, error };
 };

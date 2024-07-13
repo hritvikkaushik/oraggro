@@ -13,7 +13,7 @@ const NavigationBar = () => {
           Oraggro
         </span>
       </Navbar.Brand>
-      <Navbar.Collapse>
+      {/* <Navbar.Collapse>
         <Navbar.Link href="#" active>
           Home
         </Navbar.Link>
@@ -21,8 +21,8 @@ const NavigationBar = () => {
         <Navbar.Link href="#">Services</Navbar.Link>
         <Navbar.Link href="#">Pricing</Navbar.Link>
         <Navbar.Link href="#">Contact</Navbar.Link>
-        <DarkThemeToggle />
-      </Navbar.Collapse>
+      </Navbar.Collapse> */}
+      <DarkThemeToggle />
     </Navbar>
   );
 };
