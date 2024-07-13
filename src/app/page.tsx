@@ -4,11 +4,15 @@ import NavigationBar from "@/components/NavigationBar";
 import usePythPrice from "@/hooks/usePythPrice";
 import { Card } from "flowbite-react";
 import { PricesTable } from "./PricesTable";
+import fetchAndLogPriceFromDIA from "@/lib/diaOracle";
+import useDIAPrice from "@/hooks/useDIAPrice";
 
 export default function Home() {
-  const btcPrice = usePythPrice(
+  const pythPrice = usePythPrice(
     "0xe62df6c8b4a85fe1a67db44dc12de5db330f7ac66b72dc658afedf0f4a415b43"
   );
+
+  const diaPrice = useDIAPrice(10000, "Bitcoin");
 
   return (
     <>
@@ -24,7 +28,7 @@ export default function Home() {
 
         <Card className="max-w-md p-20">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white mx-auto">
-            ${btcPrice ? `${btcPrice.price.slice(0, 5)}` : "Loading..."}
+            ${pythPrice ? `${pythPrice.price.slice(0, 5)}` : "Loading..."}
           </h2>
           <p className="font-normal text-gray-700 dark:text-gray-400">
             Average price of below <b>2</b> oracles
@@ -32,7 +36,10 @@ export default function Home() {
         </Card>
       </div>
 
-      <PricesTable price={btcPrice}></PricesTable>
+      <PricesTable
+        pythPrice={pythPrice}
+        diaPrice={diaPrice.price}
+      ></PricesTable>
     </>
   );
 }

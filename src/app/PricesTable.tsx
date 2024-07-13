@@ -1,15 +1,18 @@
 "use client";
+import { diaPrice } from "@/hooks/useDIAPrice";
 import { Price } from "@pythnetwork/price-service-client";
 import { CustomFlowbiteTheme, Table } from "flowbite-react";
 
-export function PricesTable(props: { price: Price | undefined }) {
+export function PricesTable(props: {
+  pythPrice: Price | undefined;
+  diaPrice: diaPrice | undefined;
+}) {
   return (
     <div className="overflow-x-auto">
       <Table hoverable theme={tableTheme}>
         <Table.Head>
           <Table.HeadCell>Oracle</Table.HeadCell>
           <Table.HeadCell>Price</Table.HeadCell>
-          <Table.HeadCell>Confidence Interval</Table.HeadCell>
           <Table.HeadCell>Updated</Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">
@@ -18,13 +21,24 @@ export function PricesTable(props: { price: Price | undefined }) {
               {"Pythnet Price Feeds"}
             </Table.Cell>
             <Table.Cell>
-              ${props.price ? `${props.price.price}` : "Loading..."}
+              ${props.pythPrice ? `${props.pythPrice.price}` : "Loading..."}
             </Table.Cell>
             <Table.Cell>
-              ${props.price ? `${props.price.conf}` : "Loading..."}
+              {props.pythPrice
+                ? `${props.pythPrice.publishTime}`
+                : "Loading..."}
+            </Table.Cell>
+          </Table.Row>
+
+          <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+            <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+              {"DIA Data Oracle"}
             </Table.Cell>
             <Table.Cell>
-              {props.price ? `${props.price.publishTime}` : "Loading..."}
+              ${props.diaPrice ? `${props.diaPrice.Price}` : "Loading..."}
+            </Table.Cell>
+            <Table.Cell>
+              {props.diaPrice ? `${props.diaPrice.Time}` : "Loading..."}
             </Table.Cell>
           </Table.Row>
         </Table.Body>
