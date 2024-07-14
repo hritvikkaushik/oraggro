@@ -11,7 +11,7 @@ export interface tableDisplayPrice {
 
 export function PricesTable(props: { prices: tableDisplayPrice[] }) {
   return (
-    <div className="overflow-x-auto min-w-96 max-w-4xl max-md:min-w-120">
+    <div className="overflow-x-auto  max-w-4xl">
       <Table hoverable theme={tableTheme}>
         <Table.Head>
           <Table.HeadCell>Oracle</Table.HeadCell>
