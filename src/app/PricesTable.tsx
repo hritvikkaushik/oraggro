@@ -16,7 +16,7 @@ export function PricesTable(props: { prices: tableDisplayPrice[] }) {
         <Table.Head>
           <Table.HeadCell>Oracle</Table.HeadCell>
           <Table.HeadCell>Price</Table.HeadCell>
-          <Table.HeadCell>Updated</Table.HeadCell>
+          <Table.HeadCell>Updated At</Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">
           {props.prices.map((price) => {
