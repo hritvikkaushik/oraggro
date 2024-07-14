@@ -4,7 +4,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Flowbite, ThemeModeScript } from "flowbite-react";
 
-const inter = Inter({ subsets: ["latin"] });
+const font = Inter({ subsets: ["latin"], weight: "300" });
 
 export const metadata: Metadata = {
   title: "Oraggro",
@@ -21,7 +21,7 @@ export default function RootLayout({
       <head>
         <ThemeModeScript />
       </head>
-      <body className={inter.className}>
+      <body className={`${font.className} flex flex-col min-h-screen`}>
         <Flowbite>{children}</Flowbite>
       </body>
     </html>

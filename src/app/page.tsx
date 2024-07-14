@@ -7,10 +7,7 @@ import { FaBitcoin, FaEthereum } from "react-icons/fa";
 import { SiSolana, SiPolygon } from "react-icons/si";
 import { PricesTable, tableDisplayPrice } from "./PricesTable";
 import useDIAPrice from "@/integrations/dia/useDIAPrice";
-import {
-  convertPythPrice,
-  mapPythPriceToDisplayTablePrice,
-} from "@/integrations/pyth/util";
+import { mapPythPriceToDisplayTablePrice } from "@/integrations/pyth/util";
 import { mapDIAPriceToDisplayTablePrice } from "@/integrations/dia/util";
 import { useState } from "react";
 
@@ -28,8 +25,8 @@ export default function Home() {
     <>
       <NavigationBar />
 
-      <div className="flex flex-col items-center justify-between p-24 dark:bg-gray-900 dark:text-gray-400">
-        <div className="flex gap-5">
+      <div className="flex flex-col items-center justify-center flex-grow dark:bg-gray-900 dark:text-gray-400">
+        <div className="flex gap-5 mt-8">
           <div
             className="flex flex-col items-center hover:cursor-pointer h-16 active:bg-gray-300 active:dark:bg-gray-700 justify-center"
             onClick={() => {
@@ -68,7 +65,7 @@ export default function Home() {
           </div>
         </div>
 
-        <Card className="max-w-md p-20">
+        <Card className="max-w-md p-20 my-16">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white mx-auto">
             ${computeAveragePrice([pythDisplayPrice, diaDisplayPrice])}
           </h2>
@@ -76,9 +73,9 @@ export default function Home() {
             Average price of below <b>2</b> oracles
           </p>
         </Card>
-      </div>
 
-      <PricesTable prices={[pythDisplayPrice, diaDisplayPrice]}></PricesTable>
+        <PricesTable prices={[pythDisplayPrice, diaDisplayPrice]}></PricesTable>
+      </div>
     </>
   );
 }

@@ -17,7 +17,7 @@ const usePythPrice = (asset: string, updateInterval: number = 3000) => {
   useEffect(() => {
     const initializeConnection = () => {
       if (connectionRef.current) {
-        console.log("Closing websocket");
+        // console.log("Closing websocket");
         connectionRef.current.closeWebSocket();
       }
       // Create the PriceServiceConnection
@@ -29,7 +29,7 @@ const usePythPrice = (asset: string, updateInterval: number = 3000) => {
       connection.subscribePriceFeedUpdates([priceId], (priceFeed) => {
         const latestPrice = priceFeed.getPriceNoOlderThan(60);
         if (latestPrice) {
-          console.log("Pyth date: ", latestPrice.publishTime);
+          // console.log("Pyth date: ", latestPrice.publishTime);
           latestPriceRef.current = latestPrice;
           setPrice(latestPriceRef.current);
         }

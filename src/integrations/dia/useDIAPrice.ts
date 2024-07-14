@@ -21,7 +21,7 @@ const useDIAPrice = (interval = 10000, assetName: string) => {
         .request(options)
         .then((response) => {
           // console.log(response.data);
-          console.log("DIA: ", response.data);
+          // console.log("DIA: ", response.data);
           setPrice(response.data);
         })
         .catch((error) => {
