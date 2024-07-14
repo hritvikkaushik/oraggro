@@ -17,10 +17,15 @@ export default function Home() {
   const [asset, setAsset] = useState("BTC");
 
   const pythPrice = usePythPrice(asset, timeInterval);
-  const pythDisplayPrice = mapPythPriceToDisplayTablePrice(pythPrice);
+  const pythDisplayPrice = mapPythPriceToDisplayTablePrice(
+    pythPrice.price,
+    pythPrice.loading
+  );
 
   const diaPrice = useDIAPrice(timeInterval, asset);
   const diaDisplayPrice = mapDIAPriceToDisplayTablePrice(diaPrice.price);
+
+  const avgPrice = computeAveragePrice([pythDisplayPrice, diaDisplayPrice]);
 
   return (
     <>
@@ -64,7 +69,7 @@ export default function Home() {
 
         <Card className="max-w-md p-20 my-16">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white mx-auto">
-            ${computeAveragePrice([pythDisplayPrice, diaDisplayPrice])}
+            {avgPrice === "NaN" ? "Loading..." : `$${avgPrice}`}
           </h2>
           <p className="font-normal text-gray-700 dark:text-gray-400">
             Average price of below <b>2</b> oracles
@@ -81,5 +86,6 @@ const computeAveragePrice = (prices: tableDisplayPrice[]): string => {
   const sum = prices
     .map((price) => Number.parseFloat(price.value || ""))
     .reduce((a, b) => a + b);
+
   return (sum / prices.length).toFixed(2);
 };

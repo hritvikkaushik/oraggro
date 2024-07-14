@@ -9,6 +9,8 @@ import { pythAssetMapping } from "./assetMapping";
 
 const usePythPrice = (asset: string, updateInterval: number = 3000) => {
   const [price, setPrice] = useState<Price>();
+  const [loading, setLoading] = useState(true);
+
   const connectionRef = useRef<PriceServiceConnection>();
   const latestPriceRef = useRef<Price>();
 
@@ -19,6 +21,7 @@ const usePythPrice = (asset: string, updateInterval: number = 3000) => {
       if (connectionRef.current) {
         // console.log("Closing websocket");
         connectionRef.current.closeWebSocket();
+        setLoading(true);
       }
       // Create the PriceServiceConnection
       const connection = new PriceServiceConnection(
@@ -32,6 +35,7 @@ const usePythPrice = (asset: string, updateInterval: number = 3000) => {
           // console.log("Pyth date: ", latestPrice.publishTime);
           latestPriceRef.current = latestPrice;
           setPrice(latestPriceRef.current);
+          setLoading(false);
         }
       });
     };
@@ -53,7 +57,7 @@ const usePythPrice = (asset: string, updateInterval: number = 3000) => {
     };
   }, [priceId, updateInterval]);
 
-  return price;
+  return { price, loading };
 };
 
 export default usePythPrice;

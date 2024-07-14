@@ -7,6 +7,7 @@ export interface tableDisplayPrice {
   value?: string;
   updated?: string;
   source: "Pythnet Price Feeds" | "DIA Price Oracle";
+  loading?: boolean;
 }
 
 export function PricesTable(props: { prices: tableDisplayPrice[] }) {
@@ -29,9 +30,15 @@ export function PricesTable(props: { prices: tableDisplayPrice[] }) {
                   {price.source}
                 </Table.Cell>
                 <Table.Cell>
-                  ${price.value ? `${price.value}` : "Loading..."}
+                  {price.value && !price.loading
+                    ? `$${price.value}`
+                    : "Loading..."}
                 </Table.Cell>
-                <Table.Cell>{price.updated || "Loading..."}</Table.Cell>
+                <Table.Cell>
+                  {price.updated && !price.loading
+                    ? price.updated
+                    : "Loading..."}
+                </Table.Cell>
               </Table.Row>
             );
           })}

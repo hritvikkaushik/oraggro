@@ -9,11 +9,13 @@ export function convertPythPrice(priceObj: Price) {
 }
 
 export function mapPythPriceToDisplayTablePrice(
-  pythPrice: Price | undefined
+  pythPrice: Price | undefined,
+  loading: boolean
 ): tableDisplayPrice {
-  if (pythPrice === undefined) {
+  if (pythPrice === undefined || loading) {
     return {
       source: "Pythnet Price Feeds",
+      loading: true,
     };
   }
 
@@ -21,6 +23,7 @@ export function mapPythPriceToDisplayTablePrice(
     source: "Pythnet Price Feeds",
     updated: convertTimestampToReadableDate(pythPrice.publishTime),
     value: convertPythPrice(pythPrice),
+    loading: false,
   };
 }
 
