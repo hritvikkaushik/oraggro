@@ -7,13 +7,13 @@ const useDIAPrice = (interval = 10000, assetName: string) => {
   const [price, setPrice] = useState<diaPrice>();
   const [error, setError] = useState(null);
 
-  const mappedAssetName = diaAssetMapping.get(assetName);
+  // const mappedAssetName = diaAssetMapping.get(assetName);
 
   useEffect(() => {
     const fetchPrice = () => {
       const options = {
         method: "GET",
-        url: `https://api.diadata.org/v1/assetQuotation/${mappedAssetName}/0x0000000000000000000000000000000000000000`,
+        url: `https://api.diadata.org/v1/quotation/${assetName}`,
         headers: { "Content-Type": "application/json" },
       };
 
@@ -37,7 +37,7 @@ const useDIAPrice = (interval = 10000, assetName: string) => {
 
     // Clean up the interval when the component unmounts
     return () => clearInterval(intervalId);
-  }, [interval, mappedAssetName]);
+  }, [interval, assetName]);
 
   return { price, error };
 };

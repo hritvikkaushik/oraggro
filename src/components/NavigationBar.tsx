@@ -1,12 +1,15 @@
 import { CustomFlowbiteTheme, DarkThemeToggle, Navbar } from "flowbite-react";
+import Image from "next/image";
 
 const NavigationBar = () => {
   return (
     <Navbar fluid theme={NavigationBarTheme}>
       <Navbar.Brand href="https://flowbite-react.com">
-        <img
+        <Image
           src="/favicon.ico"
-          className="mr-3 h-6 sm:h-9"
+          className="mr-3"
+          width={24}
+          height={24}
           alt="Flowbite React Logo"
         />
         <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">

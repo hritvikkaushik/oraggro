@@ -6,4 +6,8 @@ export const pythAssetMapping = new Map<string, string>([
     "AVAX",
     "0x93da3352f9f1d105fdfe4971cfa80e9dd777bfc5d0f683ebb6e1294b92137bb7",
   ],
+  [
+    "MATIC",
+    "0x5de33a9112c2b700b8d30b8a3402c103578ccfa2765696471cc672bd5cf6ac52",
+  ],
 ]);

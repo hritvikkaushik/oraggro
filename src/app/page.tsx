@@ -3,6 +3,8 @@
 import NavigationBar from "@/components/NavigationBar";
 import usePythPrice from "@/integrations/pyth/usePythPrice";
 import { Card } from "flowbite-react";
+import { FaBitcoin, FaEthereum } from "react-icons/fa";
+import { SiSolana, SiPolygon } from "react-icons/si";
 import { PricesTable, tableDisplayPrice } from "./PricesTable";
 import useDIAPrice from "@/integrations/dia/useDIAPrice";
 import {
@@ -10,10 +12,11 @@ import {
   mapPythPriceToDisplayTablePrice,
 } from "@/integrations/pyth/util";
 import { mapDIAPriceToDisplayTablePrice } from "@/integrations/dia/util";
+import { useState } from "react";
 
 export default function Home() {
   const timeInterval = 3000;
-  const asset = "SOL";
+  const [asset, setAsset] = useState("BTC");
 
   const pythPrice = usePythPrice(asset, timeInterval);
   const pythDisplayPrice = mapPythPriceToDisplayTablePrice(pythPrice);
@@ -27,10 +30,42 @@ export default function Home() {
 
       <div className="flex flex-col items-center justify-between p-24 dark:bg-gray-900 dark:text-gray-400">
         <div className="flex gap-5">
-          <a href="#">BTC/USD</a>
-          <a href="#">ETH/USD</a>
-          <a href="#">SOL/USD</a>
-          <a href="#">AVAX/USD</a>
+          <div
+            className="flex flex-col items-center hover:cursor-pointer h-16 active:bg-gray-300 active:dark:bg-gray-700 justify-center"
+            onClick={() => {
+              setAsset("BTC");
+            }}
+          >
+            <FaBitcoin size={`3em`} />
+            <p>BTC/USD</p>
+          </div>
+          <div
+            className="flex flex-col items-center hover:cursor-pointer h-16 active:bg-gray-300 active:dark:bg-gray-700 justify-center"
+            onClick={() => {
+              setAsset("ETH");
+            }}
+          >
+            <FaEthereum size={`3em`} />
+            <p>ETH/USD</p>
+          </div>
+          <div
+            className="flex flex-col items-center hover:cursor-pointer h-16 active:bg-gray-300 active:dark:bg-gray-700 justify-center"
+            onClick={() => {
+              setAsset("SOL");
+            }}
+          >
+            <SiSolana size={`3em`} />
+            <p>SOL/USD</p>
+          </div>
+          <div
+            className="flex flex-col items-center hover:cursor-pointer h-16 active:bg-gray-300 active:dark:bg-gray-700 justify-center"
+            onClick={() => {
+              setAsset("MATIC");
+            }}
+          >
+            <SiPolygon size={`3em`} />
+            <p>MATIC/USD</p>
+          </div>
         </div>
 
         <Card className="max-w-md p-20">
