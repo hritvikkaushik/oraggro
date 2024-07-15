@@ -5,10 +5,10 @@ Oracle Aggregator is a React-based dashboard application that fetches and displa
 ## Features
 
 - Fetches real-time price data from Pyth and DIA oracles.
-- Integrates Pyth's new pull based oracle model, and connects using websockets.
-- Integrates DIA's price oracle using REST API.
+- Integrates Pyth's new pull based oracle model, using websockets.
+- Integrates DIA's price oracle using REST APIs.
 - Displays the average price of selected assets.
-- Supports assets such as BTC, ETH, SOL, and MATIC.
+- Supports BTC, ETH, SOL, and MATIC right now.
 - User-friendly interface with asset selection, dark mode switch, and responsive design.
 
 ## Technologies Used
